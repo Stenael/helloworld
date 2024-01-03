@@ -1,21 +1,68 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Picker } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-class BuatJadwal extends React.Component {
+import ValidationComponent from 'react-native-form-validator';
+// import DateTimePicker from "react-native-modal-datetime-picker";
+// import { DatePickerModal } from 'react-native-paper-dates';
+class BuatJadwal extends ValidationComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+          tanggal: "",
+          alamat: "",
+          lokasi: "",
+          jam: 0,
+        //   isDateTimePickerVisible: false
+        }
+    }
+    submitData = () => {
+        const options = {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }),
+          body: "tanggal=" + this.state.tanggal + "&" +
+            "alamat=" + this.state.alamat + "&" +
+            "lokasi=" + this.state.lokasi + "&" +
+            "jam=" + this.state.jam
+            
+        };
+        try {
+          fetch('https://ubaya.me/react/160420112/UAS_newJadwal.php',
+            options)
+            .then(response => response.json())
+            .then(resjson => {
+              console.log(resjson);
+              if (resjson.result === 'success') alert('sukses')
+            });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      _onPressButton = () => {
+        if (this.validate({
+          tanggal: { required: true },
+          alamat: { required: true},
+          lokasi: { require:true },
+          jam:{require:true}
+        })) {
+          this.submitData()
+        }
+      }
     render() {
         return (
             <View style={styles.container}>
                 <TextInput
                     style={styles.input}
                     placeholder="Tanggal Dolan"
-            
-                    onChangeText={(text) => setTanggal(text)}
+                    value={this.state.tanggal}
+                    onChangeText={(tanggal) => this.setState({tanggal})}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Jam Dolan"
-                   
-                    onChangeText={(text) => setJam(text)}
+                    value={this.state.jam}
+                    onChangeText={(jam) => this.setState({jam})}
                 />
                 <TextInput
                     style={styles.input}
@@ -26,8 +73,8 @@ class BuatJadwal extends React.Component {
                 <TextInput
                     style={styles.input}
                     placeholder="Alamat Dolan"
-                   
-                    onChangeText={(text) => setAlamat(text)}
+                    value={this.state.alamat}
+                    onChangeText={(alamat) => this.setState({alamat})}
                 />
                 <Picker
                     // selectedValue={dolanUtama}
@@ -46,7 +93,7 @@ class BuatJadwal extends React.Component {
                     onChangeText={(text) => setMinimalMember(text)}
                     keyboardType="numeric"
                 />
-                <Button title="Buat Jadwal"  />
+                <Button title="Buat Jadwal" onPress={this._onPressButton} />
             </View>
         );
     }
