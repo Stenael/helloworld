@@ -1,68 +1,118 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import ValidationComponent from 'react-native-form-validator';
 
-const Profile = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [photoUrl, setPhotoUrl] = useState('');
-  const [imageError, setImageError] = useState(null);
+export default class Profile extends ValidationComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      email: "",
+      photo: "",
+      imageError: null, // Added imageError state
+    }
+  }
+  componentDidMount() {
+    this.selectData(); // Panggil fungsi selectData setelah komponen di-mount
+  }
+  selectData = () => {
+    const apiUrl = 'https://ubaya.me/react/160420112/UAS_getEmail.php';
+    
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        // Setel email dari data yang diperoleh dari database
+        this.setState({ email: data.email });
+      })
+      .catch(error => {
+        console.error('Error fetching user email:', error);
+      });
+  }
 
-  const handleSave = () => {
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Photo URL:', photoUrl);
-  };
+  submitData = () => {
+    const options = {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }),
+      body: `username=${this.state.username}&photo=${this.state.photo}`
+    };
 
-  const handleImageError = () => {
-    setImageError('Invalid Image URL');
-  };
+    try {
+      fetch('https://ubaya.me/react/160420112/UAS_updateProfile.php', options)
+        .then(response => response.json())
+        .then(resjson => {
+          console.log(resjson);
+          if (resjson.result === 'success') {
+            alert('sukses');
+          } else {
+            alert('gagal');
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        {photoUrl ? (
-          <Image
-            source={{ uri: photoUrl }}
-            style={styles.profileImage}
-            onError={handleImageError}
-          />
-        ) : (
-          <View style={styles.defaultImageContainer}>
-            <Text style={styles.defaultImageText}>No Image</Text>
-          </View>
-        )}
-        {imageError && <Text style={styles.errorText}>{imageError}</Text>}
+  _onPressButton = () => {
+    if (this.validate({
+      username: { required: true },
+      email: { required: true },
+      photo: { required: true }
+    })) {
+      this.submitData();
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          {this.state.photo ? (
+            <Image
+              source={{ uri: this.state.photo }}
+              style={styles.profileImage}
+              onError={() => this.setState({ imageError: 'Invalid Image URL' })}
+            />
+          ) : (
+            <View style={styles.defaultImageContainer}>
+              <Text style={styles.defaultImageText}>No Image</Text>
+            </View>
+          )}
+          {this.state.imageError && <Text style={styles.errorText}>{this.state.imageError}</Text>}
+        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={this.state.username}
+          onChangeText={(username) => this.setState({ username })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={this.state.email}
+          onChangeText={(email) => this.setState({ email })}
+          keyboardType="email-address"
+          editable={false}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Photo URL"
+          value={this.state.photo}
+          onChangeText={(photo) => this.setState({ photo })}
+        />
+        
+        <Button title="Save" onPress={this._onPressButton} />
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Photo URL"
-        value={photoUrl}
-        onChangeText={(text) => setPhotoUrl(text)}
-      />
-      <Button title="Save" onPress={handleSave} />
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   imageContainer: {
     marginBottom: 20,
@@ -81,20 +131,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   defaultImageText: {
-    color: 'white',
+    color: '#fff',
   },
   input: {
     height: 40,
-    width: '100%',
-    borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
     padding: 10,
+    marginBottom: 10,
+    width: '80%',
   },
   errorText: {
     color: 'red',
-    marginTop: 5,
   },
 });
-
-export default Profile;

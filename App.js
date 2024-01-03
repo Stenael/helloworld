@@ -183,7 +183,7 @@ export default class App extends Component {
           <Drawer.Screen name="Buat Jadwal" component={BuatJadwal} />
           <Drawer.Screen name="Signup" component={Signup} />
           <Stack.Screen name="BuatJadwal" component={BuatJadwal} />
-          <Drawer.Screen name="EditMovie" component={EditMovie} />
+        
 
         </Drawer.Navigator>
       </NavigationContainer>

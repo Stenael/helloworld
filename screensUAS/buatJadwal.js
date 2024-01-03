@@ -36,7 +36,7 @@ class BuatJadwal extends ValidationComponent {
               if (resjson.result === 'success') alert('sukses')
             });
         } catch (error) {
-          console.log(error);
+          console.error("Error in fetch:", error);
         }
       }
       _onPressButton = () => {
