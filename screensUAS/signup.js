@@ -1,57 +1,103 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import ValidationComponent from 'react-native-form-validator';
+export default class SingUp extends ValidationComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      resetPassword: "",
+      photo: "",
+      email: "",
 
-const SignUp = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [password, setPassword] = useState('');
-  const [resetPassword, setResetPassword] = useState('');
+    }
+  }
+  submitData = () => {
+    const options = {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }),
+      body: 
+        "username=" + this.state.username + "&" +
+        "password=" + this.state.password + "&" +
+        "photo=" + this.state.photo + "&" +
+        "email=" + this.state.email 
+        
+    };
+    try {
+      fetch('https://ubaya.me/react/160420112/UAS_signUp.php',
+        options)
+        .then(response => response.json())
+        .then(resjson => {
+          console.log(resjson);
+          if (resjson.result === 'success'){
+            console.log("Sukses");
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  _onPressButton = () => {
+    if (this.validate({
+      username: { required: true}, 
+      password:{require: true },
+      photo: { require:true },
+      email: { required: true },
+    })) {
+      this.submitData()
+    }
+  }
+    render(){
+      return (
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={this.state.email}
+            onChangeText={(email) => this.setState({email})}
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Nama Lengkap"
+            value={this.state.username}
+            onChangeText={(username) => this.setState({username})}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={this.state.password}
+            onChangeText={(password) => this.setState({password})}
+            secureTextEntry
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Ulangi Password"
+            value={this.state.resetPassword}
+            onChangeText={(resetPassword) => this.setState({resetPassword})}
+            secureTextEntry
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Photo Url"
+            value={this.state.photo}
+            onChangeText={(photo) => this.setState({photo})}
+            
+          />
+          <Button title="Sign In"  onPress={this._onPressButton} />
+          {/* <Button title="Kembali" onPress={handleGoBack} /> */}
+          <Text>
+            {this.getErrorMessages()}
+          </Text>
+        </View>
+        
+      )
+    }
 
-  const handleSignIn = () => {
-    // Implement logic for sign in
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Add more authentication logic as needed
-  };
-
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Nama Lengkap"
-        value={fullName}
-        onChangeText={(text) => setFullName(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Ulangi Password"
-        value={resetPassword}
-        onChangeText={(text) => setResetPassword(text)}
-        secureTextEntry
-      />
-      <Button title="Sign In" onPress={handleSignIn} />
-      <Button title="Kembali" onPress={handleGoBack} />
-    </View>
-  );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -70,4 +116,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
