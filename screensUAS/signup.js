@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import ValidationComponent from 'react-native-form-validator';
-export default class SingUp extends ValidationComponent {
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import ValidationComponent from "react-native-form-validator";
+export default class SignUp extends ValidationComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,109 +10,109 @@ export default class SingUp extends ValidationComponent {
       resetPassword: "",
       photo: "",
       email: "",
-
-    }
+    };
   }
   submitData = () => {
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded'
+        "Content-Type": "application/x-www-form-urlencoded",
       }),
-      body: 
-        "username=" + this.state.username + "&" +
-        "password=" + this.state.password + "&" +
-        "photo=" + this.state.photo + "&" +
-        "email=" + this.state.email 
-        
+      body:
+        "username=" +
+        this.state.username +
+        "&" +
+        "password=" +
+        this.state.password +
+        "&" +
+        "photo=" +
+        this.state.photo +
+        "&" +
+        "email=" +
+        this.state.email,
     };
     try {
-      fetch('https://ubaya.me/react/160420112/UAS_signUp.php',
-        options)
-        .then(response => response.json())
-        .then(resjson => {
+      fetch("https://ubaya.me/react/160420112/UAS_signUp.php", options)
+        .then((response) => response.json())
+        .then((resjson) => {
           console.log(resjson);
-          if (resjson.result === 'success'){
+          if (resjson.result === "success") {
             console.log("Sukses");
           }
         });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   _onPressButton = () => {
-    if (this.validate({
-      username: { required: true}, 
-      password:{require: true },
-      photo: { require:true },
-      email: { required: true },
-    })) {
-      this.submitData()
+    if (
+      this.validate({
+        username: { required: true },
+        password: { require: true },
+        photo: { require: true },
+        email: { required: true },
+      })
+    ) {
+      this.submitData();
     }
+  };
+  render() {
+    return (
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={this.state.email}
+          onChangeText={(email) => this.setState({ email })}
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Nama Lengkap"
+          value={this.state.username}
+          onChangeText={(username) => this.setState({ username })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={this.state.password}
+          onChangeText={(password) => this.setState({ password })}
+          secureTextEntry
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Ulangi Password"
+          value={this.state.resetPassword}
+          onChangeText={(resetPassword) => this.setState({ resetPassword })}
+          secureTextEntry
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Photo Url"
+          value={this.state.photo}
+          onChangeText={(photo) => this.setState({ photo })}
+        />
+        <Button title="Sign In" onPress={this._onPressButton} />
+        {/* <Button title="Kembali" onPress={handleGoBack} /> */}
+        <Text>{this.getErrorMessages()}</Text>
+      </View>
+    );
   }
-    render(){
-      return (
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={this.state.email}
-            onChangeText={(email) => this.setState({email})}
-            keyboardType="email-address"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Nama Lengkap"
-            value={this.state.username}
-            onChangeText={(username) => this.setState({username})}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={this.state.password}
-            onChangeText={(password) => this.setState({password})}
-            secureTextEntry
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Ulangi Password"
-            value={this.state.resetPassword}
-            onChangeText={(resetPassword) => this.setState({resetPassword})}
-            secureTextEntry
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Photo Url"
-            value={this.state.photo}
-            onChangeText={(photo) => this.setState({photo})}
-            
-          />
-          <Button title="Sign In"  onPress={this._onPressButton} />
-          {/* <Button title="Kembali" onPress={handleGoBack} /> */}
-          <Text>
-            {this.getErrorMessages()}
-          </Text>
-        </View>
-        
-      )
-    }
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   input: {
     height: 40,
-    width: '100%',
-    borderColor: 'gray',
+    width: "100%",
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
   },
 });
-
