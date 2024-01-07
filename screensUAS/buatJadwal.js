@@ -40,7 +40,10 @@ class BuatJadwal extends ValidationComponent {
         this.state.lokasi +
         "&" +
         "jam=" +
-        this.state.jam,
+        this.state.jam +
+        "&" +
+        "min_member" +
+        this.state.member,
     };
     try {
       fetch("https://ubaya.me/react/160420112/UAS_newJadwal.php", options)
@@ -59,6 +62,7 @@ class BuatJadwal extends ValidationComponent {
         alamat: { required: true },
         lokasi: { require: true },
         jam: { require: true },
+        member: { require: true },
       })
     ) {
       this.submitData();
@@ -136,7 +140,7 @@ class BuatJadwal extends ValidationComponent {
         <TextInput
           style={styles.input}
           placeholder="Minimal Member"
-          onChangeText={(text) => setMinimalMember(text)}
+          onChangeText={(member) => this.setState({ member })}
           keyboardType="numeric"
         />
         <Button title="Buat Jadwal" onPress={this._onPressButton} />
