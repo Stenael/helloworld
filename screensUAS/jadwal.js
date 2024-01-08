@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 
 class Jadwal extends React.Component {
   render (){
+    const { joinedIds } = this.props;
+
     return (
         
         <View style={styles.container} >
@@ -14,6 +16,7 @@ class Jadwal extends React.Component {
         } >
             <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
+          <Text>Joined IDs: {JSON.stringify(joinedIds)}</Text>
         </View>
         
        );

@@ -10,12 +10,15 @@ import React from "react";
 import { Card } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
+
 class CariJadwal extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {joinedIds: [], data: [],
+    };
     this.fetchData();
     cari: "";
+    
   }
 
   fetchData = () => {
@@ -41,6 +44,20 @@ class CariJadwal extends React.Component {
       console.log(error);
     }
   };
+  handleJoin = (id) => {
+    if (!this.state.joinedIds.includes(id)) {
+      this.setState((prevState) => ({
+        joinedIds: [...prevState.joinedIds, id],
+      }));
+      // Tambahkan logika untuk menangani ketika tombol "Join" ditekan
+      console.log("Join button pressed for ID:", id);
+      alert("Anda telah join");
+      alert("Joined IDs: " + JSON.stringify(this.state.joinedIds));
+      // Selanjutnya, Anda bisa melakukan navigasi atau tindakan lainnya dengan ID ini
+    } else {
+      alert("Anda sudah join acara ini sebelumnya.");
+    }
+  };
   showData(data) {
     return (
       <FlatList
@@ -59,6 +76,7 @@ class CariJadwal extends React.Component {
             <Button title={`0/${item.min_member} orang`}></Button>
             <Text>{item.lokasi}</Text>
             <Text>{item.alamat}</Text>
+            <Text>{item.id}</Text>
             <Button
               buttonStyle={{
                 borderRadius: 0,
@@ -67,10 +85,7 @@ class CariJadwal extends React.Component {
                 marginBottom: 0,
               }}
               title="Join"
-              onPress={() => {
-                const { navigation } = this.props;
-                navigation.navigate("DetailMovie", { movie_id: item.movie_id });
-              }}
+              onPress={() => this.handleJoin(item.id)}
             />
           </Card>
         )}
@@ -92,6 +107,7 @@ class CariJadwal extends React.Component {
           </View>
         </Card>
         {this.showData(this.state.data)}
+       
       </ScrollView>
     );
   }
