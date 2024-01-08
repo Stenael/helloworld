@@ -164,6 +164,7 @@ export default class App extends Component {
       return (
         <NavigationContainer><Stack.Navigator>
           <Stack.Screen name="Signin" component={Signin} />
+          <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
         </NavigationContainer>);
     } 

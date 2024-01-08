@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
 import ValidationComponent from 'react-native-form-validator';
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Add this line
 
 export default class Profile extends ValidationComponent {
   constructor(props) {
@@ -13,20 +14,49 @@ export default class Profile extends ValidationComponent {
     }
   }
   componentDidMount() {
-    this.selectData(); // Panggil fungsi selectData setelah komponen di-mount
+    this.selectData();
   }
-  selectData = () => {
-    const apiUrl = 'https://ubaya.me/react/160420112/UAS_getEmail.php';
-    
-    fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        // Setel email dari data yang diperoleh dari database
-        this.setState({ email: data.email });
-      })
-      .catch(error => {
-        console.error('Error fetching user email:', error);
-      });
+  // componentDidMount() {
+  //   // Access route.params in componentDidMount
+  //   const { route } = this.props;
+  //   const { username } = route.params;
+  //   this.setState({ username }, () => {
+  //     // After setting the username, call selectData
+  //     this.selectData();
+  //   });
+  // }
+  // selectData = () => {
+  //   const apiUrl = 'https://ubaya.me/react/160420112/UAS_getEmail.php';
+  
+  //   fetch(apiUrl)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       if (data.result === 'success') {
+  //         // Set username and email from data obtained from the database
+  //         this.setState({ username: data.username, email: data.email });
+  //       } else {
+  //         console.error('Error fetching user data:', data.message);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching user data:', error);
+  //     });
+  //   }
+  selectData = async () => {
+    try {
+      const storedUsername = await AsyncStorage.getItem("username");
+      // const storedEmail = await AsyncStorage.getItem("email");
+      // if (storedEmail) {
+      //   this.setState({ email:storedEmail  });
+      //   // Perform additional data fetching if needed
+      // }
+      if (storedUsername) {
+        this.setState({ username:storedUsername});
+        // Perform additional data fetching if needed
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
   }
 
   submitData = () => {

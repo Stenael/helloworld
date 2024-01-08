@@ -17,6 +17,7 @@ class signin extends Component {
     this.state = {
       username: "oke",
       password: "1234",
+      email: "",
     };
   }
   doLogin = async (username, password) => {
@@ -36,7 +37,11 @@ class signin extends Component {
 
     if (json.result == "success") {
       try {
-        await AsyncStorage.setItem("username", json.user_name);
+        await AsyncStorage.setItem("username", json.username);
+        this.props.navigation.navigate("Profile", { username: json.username });
+        await AsyncStorage.setItem("email", json.email);
+        // Pass email as a parameter when navigating to Profile
+        this.props.navigation.navigate("Profile", { email: json.email });
         alert("login sukses");
       } catch (e) {
         // saving error
