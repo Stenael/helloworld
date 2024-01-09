@@ -8,56 +8,60 @@ export default class Profile extends ValidationComponent {
     super(props);
     this.state = {
       username: "",
-      email: "",
       photo: "",
       imageError: null, // Added imageError state
+      user_id: 0,
+      data: {},
+      email: "",
     }
+    this.asyncStorage = AsyncStorage;
   }
   componentDidMount() {
-    this.selectData();
+    this.fetchData();
+    // this.getEmailFromAsyncStorage();
   }
-  // componentDidMount() {
-  //   // Access route.params in componentDidMount
-  //   const { route } = this.props;
-  //   const { username } = route.params;
-  //   this.setState({ username }, () => {
-  //     // After setting the username, call selectData
-  //     this.selectData();
-  //   });
-  // }
-  // selectData = () => {
-  //   const apiUrl = 'https://ubaya.me/react/160420112/UAS_getEmail.php';
-  
-  //   fetch(apiUrl)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       if (data.result === 'success') {
-  //         // Set username and email from data obtained from the database
-  //         this.setState({ username: data.username, email: data.email });
-  //       } else {
-  //         console.error('Error fetching user data:', data.message);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching user data:', error);
-  //     });
+  // getEmailFromAsyncStorage = async () => {
+  //   try {
+  //     const email = await this.asyncStorage.getItem('email');
+  //     if (email !== null) {
+  //       this.setState({ email });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
   //   }
-  selectData = async () => {
+  //  }
+  fetchData = async () => {
     try {
-      const storedUsername = await AsyncStorage.getItem("username");
-      // const storedEmail = await AsyncStorage.getItem("email");
-      // if (storedEmail) {
-      //   this.setState({ email:storedEmail  });
-      //   // Perform additional data fetching if needed
-      // }
-      if (storedUsername) {
-        this.setState({ username:storedUsername});
-        // Perform additional data fetching if needed
+      const user_id = await this.asyncStorage.getItem('id');
+      if (user_id !== null) {
+        this.setState({ user_id });
       }
+      const options = {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+        body: "id=" + user_id
+      };
+      const response = await fetch('https://ubaya.me/react/160420112/UAS_detailProfile.php', options);
+      const resjson = await response.json();
+  
+      console.log('Response JSON:', resjson); // Add this line to log the response
+  
+      this.setState({
+        data: resjson,
+        email: resjson.email,
+        photo: resjson.photo
+      });
+      console.log(resjson.photo);
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.log(error);
     }
   }
+  
+
+
+
 
   submitData = () => {
     const options = {
@@ -65,7 +69,9 @@ export default class Profile extends ValidationComponent {
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded'
       }),
-      body: `username=${this.state.username}&photo=${this.state.photo}`
+      body: "username=" + this.state.username + "&" +
+      "photo=" + this.state.photo + "&" +
+      "id=" + this.state.user_id 
     };
 
     try {
@@ -75,8 +81,6 @@ export default class Profile extends ValidationComponent {
           console.log(resjson);
           if (resjson.result === 'success') {
             alert('sukses');
-          } else {
-            alert('gagal');
           }
         });
     } catch (error) {
@@ -84,10 +88,10 @@ export default class Profile extends ValidationComponent {
     }
   }
 
+
   _onPressButton = () => {
     if (this.validate({
       username: { required: true },
-      email: { required: true },
       photo: { required: true }
     })) {
       this.submitData();
@@ -121,7 +125,7 @@ export default class Profile extends ValidationComponent {
           style={styles.input}
           placeholder="Email"
           value={this.state.email}
-          onChangeText={(email) => this.setState({ email })}
+          // onChangeText={(email) => this.setState({ email })}
           keyboardType="email-address"
           editable={false}
         />
@@ -131,7 +135,7 @@ export default class Profile extends ValidationComponent {
           value={this.state.photo}
           onChangeText={(photo) => this.setState({ photo })}
         />
-        
+
         <Button title="Save" onPress={this._onPressButton} />
       </View>
     );
