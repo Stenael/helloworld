@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
 import ValidationComponent from 'react-native-form-validator';
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Add this line
-
-export default class Profile extends ValidationComponent {
+import { useNavigation } from '@react-navigation/native';
+class UpdatePassword extends ValidationComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +71,7 @@ export default class Profile extends ValidationComponent {
     };
 
     try {
-      fetch('https://ubaya.me/react/160420112/UAS_updateProfile.php', options)
+      fetch('https://ubaya.me/react/160420112/UAS_updatePass.php', options)
         .then(response => response.json())
         .then(resjson => {
           console.log(resjson);
@@ -114,7 +114,10 @@ export default class Profile extends ValidationComponent {
     );
   }
 }
-
+export default function(props) {
+    const navigation = useNavigation();
+    return <UpdatePassword {...props} navigation={navigation} />;
+ }
 const styles = StyleSheet.create({
   container: {
     flex: 1,

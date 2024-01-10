@@ -34,6 +34,8 @@ import Signin from "./screensUAS/signin";
 import Signup from "./screensUAS/signup";
 import Jadwal from "./screensUAS/jadwal";
 import ShowMember from "./screensUAS/member";
+import UpdatePassword from "./screensUAS/updatePassword";
+import GantiPassword from "./screensUAS/gantiPassword";
 import CariJadwal from "./screensUAS/cariJadwal";
 import Profile from "./screensUAS/profile";
 import BuatJadwal from "./screensUAS/buatJadwal";
@@ -162,6 +164,18 @@ export default class App extends Component {
       </Stack.Navigator>
     );
   }
+  NavPass() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Ganti Password"
+          component={GantiPassword}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Update Password" component={UpdatePassword} />
+      </Stack.Navigator>
+    );
+  }
 
   render() {
     if (!this.state.islogin) {
@@ -190,8 +204,10 @@ export default class App extends Component {
           <Drawer.Screen name="Popular Actor" component={this.NavActor} /> */}
             <Drawer.Screen name="Buat Jadwal" component={BuatJadwal} />
             <Drawer.Screen name="Signup" component={Signup} />
+            <Drawer.Screen name="Ganti Pass" component={this.NavPass} />
             <Stack.Screen name="BuatJadwal" component={BuatJadwal} />
             <Stack.Screen name="ShowMember" component={ShowMember} />
+            <Stack.Screen name="Update Password" component={UpdatePassword} />
           </Drawer.Navigator>
         </NavigationContainer>
         // <NavigationContainer>

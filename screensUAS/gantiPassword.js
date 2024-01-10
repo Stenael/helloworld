@@ -10,8 +10,8 @@ import {
 import { Card } from "@rneui/base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeModules } from "react-native";
-
-class gantiPassword extends Component {
+import { useNavigation } from '@react-navigation/native';
+class GantiPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,6 +65,8 @@ class gantiPassword extends Component {
             title="Submit"
             onPress={() => {
               this.doLogin(this.state.username);
+              const { navigation } = this.props;
+              navigation.navigate("UpdatePassword")
             }}
           />
         </View>
@@ -73,7 +75,10 @@ class gantiPassword extends Component {
   }
 }
 
-export default gantiPassword;
+export default function(props) {
+    const navigation = useNavigation();
+    return <GantiPassword {...props} navigation={navigation} />;
+ }
 
 const styles = StyleSheet.create({
   input: {
