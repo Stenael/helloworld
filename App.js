@@ -154,18 +154,35 @@ export default class App extends Component {
       </Stack.Navigator>
     );
   }
+  NavPass() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Ganti Password"
+          component={GantiPassword}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Update Password" component={UpdatePassword} />
+      </Stack.Navigator>
+    );
+  }
 
   render() {
     if (!this.state.islogin) {
       return (
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Signin" component={Signin} />
+            <Stack.Screen 
+              name="Signin" 
+              component={(props) => <Signin {...props} />} 
+            />
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Ganti Pass" component={this.NavPass} />
+            <Stack.Screen name="Signup" component={Signup} />
           </Stack.Navigator>
         </NavigationContainer>
       );
-    }
+     }
     if (this.state.islogin) {
       return (
         <NavigationContainer>

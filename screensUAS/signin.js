@@ -74,7 +74,13 @@ class signin extends Component {
           <Button
             style={styles.button}
             title="Sign Up"
-            onPress={() => navigation.navigate("signup")}
+            onPress={() => navigation.navigate("Signup")}
+          />
+
+          <Button
+            style={styles.button}
+            title="Forgot Password"
+            onPress={() => navigation.navigate("GantiPassword")}
           ></Button>
           <Button
             style={styles.button}

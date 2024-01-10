@@ -65,9 +65,9 @@ class BuatJadwal extends ValidationComponent {
     if (
       this.validate({
         alamat: { required: true },
-        lokasi: { require: true },
-        jam: { require: true },
-        min_member: { require: true },
+        lokasi: { required: true },
+        jam: { required: true },
+        member: { required: true },
       })
     ) {
       this.submitData();
@@ -155,6 +155,7 @@ class BuatJadwal extends ValidationComponent {
           keyboardType="numeric"
         />
         <Button title="Buat Jadwal" onPress={this._onPressButton} />
+        <Text>{this.getErrorMessages()}</Text>
       </View>
     );
   }
