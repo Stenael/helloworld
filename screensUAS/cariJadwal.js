@@ -10,15 +10,14 @@ import React from "react";
 import { Card } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class CariJadwal extends React.Component {
   constructor() {
     super();
-    this.state = {joinedIds: [], data: [],
-    };
+    this.state = { joinedIds: [], data: [] };
     this.fetchData();
     cari: "";
-    
   }
 
   fetchData = () => {
@@ -42,20 +41,6 @@ class CariJadwal extends React.Component {
         });
     } catch (error) {
       console.log(error);
-    }
-  };
-  handleJoin = (id) => {
-    if (!this.state.joinedIds.includes(id)) {
-      this.setState((prevState) => ({
-        joinedIds: [...prevState.joinedIds, id],
-      }));
-      // Tambahkan logika untuk menangani ketika tombol "Join" ditekan
-      console.log("Join button pressed for ID:", id);
-      alert("Anda telah join");
-      alert("Joined IDs: " + JSON.stringify(this.state.joinedIds));
-      // Selanjutnya, Anda bisa melakukan navigasi atau tindakan lainnya dengan ID ini
-    } else {
-      alert("Anda sudah join acara ini sebelumnya.");
     }
   };
   showData(data) {
@@ -85,7 +70,29 @@ class CariJadwal extends React.Component {
                 marginBottom: 0,
               }}
               title="Join"
-              onPress={() => this.handleJoin(item.id)}
+              onPress={async () => {
+                try {
+                  const userId = await AsyncStorage.getItem("id");
+                  const options = {
+                    method: "POST",
+                    headers: new Headers({
+                      "Content-Type": "application/x-www-form-urlencoded",
+                    }),
+                    body: "idJadwal=" + item.id + "&" + "idUser=" + userId,
+                  };
+                  const response = await fetch(
+                    "https://ubaya.me/react/160420112/UAS_joinJadwal.php",
+                    options
+                  );
+                  const resjson = await response.json();
+                  console.log(resjson);
+                  if (resjson.result === "success") {
+                    alert("sukses");
+                  }
+                } catch (error) {
+                  console.error("Error in fetch:", error);
+                }
+              }}
             />
           </Card>
         )}
@@ -107,7 +114,6 @@ class CariJadwal extends React.Component {
           </View>
         </Card>
         {this.showData(this.state.data)}
-       
       </ScrollView>
     );
   }
