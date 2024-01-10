@@ -51,6 +51,7 @@ class signin extends Component {
   };
 
   render() {
+    const { navigation } = this.props;
     return (
       <Card>
         <Card.Title>Silakan Login</Card.Title>

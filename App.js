@@ -158,11 +158,11 @@ export default class App extends Component {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          name="Ganti Password"
+          name="GantiPassword"
           component={GantiPassword}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Update Password" component={UpdatePassword} />
+        <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
       </Stack.Navigator>
     );
   }
@@ -177,7 +177,7 @@ export default class App extends Component {
               component={(props) => <Signin {...props} />} 
             />
             <Stack.Screen name="Profile" component={Profile} />
-            <Stack.Screen name="Ganti Pass" component={this.NavPass} />
+            <Stack.Screen name="GantiPassword" component={this.NavPass} />
             <Stack.Screen name="Signup" component={Signup} />
           </Stack.Navigator>
         </NavigationContainer>
