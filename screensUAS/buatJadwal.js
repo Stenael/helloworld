@@ -67,12 +67,10 @@ class BuatJadwal extends ValidationComponent {
         alamat: { required: true },
         lokasi: { required: true },
         jam: { required: true },
-        member: { required: true },
+        min_member: { required: true },
       })
     ) {
       this.submitData();
-      const { navigation } = this.props;
-      navigation.navigate("CariJadwal");
     }
   };
   showDateTimePicker = () => {
