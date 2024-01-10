@@ -18,32 +18,27 @@ class ShowMember extends React.Component {
   constructor() {
     super();
     this.state = { id: 0, is_fetched: false, data: {} };
-    this.asyncStorage = AsyncStorage;
   }
   fetchData = async () => {
-    try {
-      const options = {
-        method: "POST",
-        headers: new Headers({
-          "Content-Type": "application/x-www-form-urlencoded",
-        }),
-        body: "idJadwal=" + this.state.id,
-      };
+    const options = {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/x-www-form-urlencoded",
+      }),
+      body: "idJadwal=" + this.state.id,
+    };
 
-      try {
-        fetch("https://ubaya.me/react/160420112/showMember.php", options)
-          .then((response) => response.json())
-          .then((resjson) => {
-            this.setState(
-              (this.state = {
-                is_fetched: true,
-                data: resjson.data,
-              })
-            );
-          });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      fetch("https://ubaya.me/react/160420112/showMember.php", options)
+        .then((response) => response.json())
+        .then((resjson) => {
+          this.setState(
+            (this.state = {
+              is_fetched: true,
+              data: resjson.data,
+            })
+          );
+        });
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +52,15 @@ class ShowMember extends React.Component {
       return (
         <ScrollView>
           <Card>
-            <Card.Title>{this.state.username}</Card.Title>
+            <FlatList
+              data={this.state.data.users}
+              keyExtractor={(item) => item.username}
+              renderItem={({ item }) => (
+                <View>
+                  <Text>{item.username}</Text>
+                </View>
+              )}
+            ></FlatList>
           </Card>
         </ScrollView>
       );
