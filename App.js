@@ -192,11 +192,9 @@ export default class App extends Component {
               component={this.Nav1}
               options={{ headerShown: true }}
             />
-            <Drawer.Screen name="Signup" component={Signup} />
-            <Drawer.Screen name="Ganti Pass" component={this.NavPass} />
             <Stack.Screen name="BuatJadwal" component={BuatJadwal} />
             <Stack.Screen name="ShowMember" component={ShowMember} />
-            <Stack.Screen name="Update Password" component={UpdatePassword} />
+      
           </Drawer.Navigator>
         </NavigationContainer>
       );

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import ValidationComponent from "react-native-form-validator";
-export default class SignUp extends ValidationComponent {
+import { useNavigation } from '@react-navigation/native';
+class SignUp extends ValidationComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,6 +58,7 @@ export default class SignUp extends ValidationComponent {
     }
   };
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <TextInput
@@ -92,14 +94,22 @@ export default class SignUp extends ValidationComponent {
           value={this.state.photo}
           onChangeText={(photo) => this.setState({ photo })}
         />
-        <Button title="Sign In" onPress={this._onPressButton} />
+        <Button title="Sign Up" 
+        onPress={() => {
+          this._onPressButton();
+          alert("sukses");
+          navigation.navigate("SignIn");
+        }} />
         {/* <Button title="Kembali" onPress={handleGoBack} /> */}
         <Text>{this.getErrorMessages()}</Text>
       </View>
     );
   }
 }
-
+export default function(props) {
+  const navigation = useNavigation();
+  return <SignUp {...props} navigation={navigation} />;
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -10,8 +10,8 @@ import {
 import { Card } from "@rneui/base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeModules } from "react-native";
-
-class signin extends Component {
+import { useNavigation } from '@react-navigation/native';
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -96,7 +96,10 @@ class signin extends Component {
   }
 }
 
-export default signin;
+export default function(props) {
+  const navigation = useNavigation();
+  return <SignIn {...props} navigation={navigation} />;
+}
 
 const styles = StyleSheet.create({
   input: {

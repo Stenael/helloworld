@@ -94,6 +94,7 @@ class UpdatePassword extends ValidationComponent {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <TextInput
@@ -109,7 +110,12 @@ class UpdatePassword extends ValidationComponent {
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
         />
-        <Button title="Save" onPress={this._onPressButton} />
+        <Button title="Save" 
+        onPress={() => {
+          this._onPressButton();
+          alert("sukses");
+          navigation.navigate("SignIn");
+        }} />
       </View>
     );
   }
