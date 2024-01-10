@@ -6,6 +6,7 @@ import {
   Button,
   StyleSheet,
   Picker,
+  DropDownPicker,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ValidationComponent from "react-native-form-validator";
@@ -19,7 +20,8 @@ class BuatJadwal extends ValidationComponent {
       alamat: "",
       lokasi: "",
       jam: 0,
-      member: 0,
+      min_member: 0,
+      id_dolan: 0,
       isDateTimePickerVisible: false,
     };
   }
@@ -42,8 +44,11 @@ class BuatJadwal extends ValidationComponent {
         "jam=" +
         this.state.jam +
         "&" +
-        "min_member" +
-        this.state.member,
+        "idDolan=" +
+        this.state.id_dolan +
+        "&" +
+        "min_member=" +
+        this.state.min_member,
     };
     try {
       fetch("https://ubaya.me/react/160420112/UAS_newJadwal.php", options)
@@ -62,10 +67,12 @@ class BuatJadwal extends ValidationComponent {
         alamat: { required: true },
         lokasi: { require: true },
         jam: { require: true },
-        member: { require: true },
+        min_member: { require: true },
       })
     ) {
       this.submitData();
+      const { navigation } = this.props;
+      navigation.navigate("CariJadwal");
     }
   };
   showDateTimePicker = () => {
@@ -87,6 +94,7 @@ class BuatJadwal extends ValidationComponent {
     });
     this.hideDateTimePicker();
   };
+
   render() {
     return (
       <View style={styles.container}>
@@ -130,17 +138,20 @@ class BuatJadwal extends ValidationComponent {
         <Picker
           // selectedValue={dolanUtama}
           style={styles.input}
-          // onValueChange={(itemValue) => setDolanUtama(itemValue)}
+          value={this.state.id_dolan}
+          onValueChange={(id_dolan) => this.setState({ id_dolan })}
         >
           <Picker.Item label="Pilih Dolan Utama" value="Pilih Dolan Utama" />
-          <Picker.Item label="Dolan A" value="Dolan A" />
-          <Picker.Item label="Dolan B" value="Dolan B" />
-          {/* Tambahkan item lain sesuai kebutuhan */}
+          <Picker.Item label="Petang Umpet" value="1" />
+          <Picker.Item label="Gobak Sodor" value="2" />
+          <Picker.Item label="Lompat Tali" value="3" />
+          <Picker.Item label="Sepak Bola" value="4" />
         </Picker>
         <TextInput
           style={styles.input}
           placeholder="Minimal Member"
-          onChangeText={(member) => this.setState({ member })}
+          value={this.state.min_member}
+          onChangeText={(min_member) => this.setState({ min_member })}
           keyboardType="numeric"
         />
         <Button title="Buat Jadwal" onPress={this._onPressButton} />

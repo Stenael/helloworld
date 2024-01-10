@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 class CariJadwal extends React.Component {
   constructor() {
     super();
-    this.state = { joinedIds: [], data: [] };
+    this.state = { data: [] };
     this.fetchData();
     cari: "";
   }
@@ -56,12 +56,11 @@ class CariJadwal extends React.Component {
               }}
             />
             <Card.Title>{item.nama}</Card.Title>
-            <Text>{item.tanggal}</Text>
-            <Text>{item.jam}</Text>
-            <Button title={`0/${item.min_member} orang`}></Button>
-            <Text>{item.lokasi}</Text>
-            <Text>{item.alamat}</Text>
-            <Text>{item.id}</Text>
+            <Text>Tanggal : {item.tanggal}</Text>
+            <Text>Jam : {item.jam}</Text>
+            <Button title={`${item.member}/${item.min_member} orang`}></Button>
+            <Text>Lokasi : {item.lokasi}</Text>
+            <Text>Alamat : {item.alamat}</Text>
             <Button
               buttonStyle={{
                 borderRadius: 0,

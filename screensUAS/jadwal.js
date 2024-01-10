@@ -62,18 +62,17 @@ class Jadwal extends React.Component {
               }}
             />
             <Card.Title>{item.nama}</Card.Title>
-            <Text>{item.tanggal}</Text>
-            <Text>{item.jam}</Text>
+            <Text>Tanggal : {item.tanggal}</Text>
+            <Text>Jam : {item.jam}</Text>
             <Button
-              title={`0/${item.min_member} orang`}
+              title={`${item.member}/${item.min_member} orang`}
               onPress={() => {
                 const { navigation } = this.props;
                 navigation.navigate("ShowMember", { id: item.id });
               }}
             ></Button>
-            <Text>{item.lokasi}</Text>
-            <Text>{item.alamat}</Text>
-            <Text>{item.id}</Text>
+            <Text>Lokasi : {item.lokasi}</Text>
+            <Text>Alamat : {item.alamat}</Text>
             <Button
               buttonStyle={{
                 borderRadius: 0,
