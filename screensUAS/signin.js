@@ -40,10 +40,10 @@ class SignIn extends Component {
         await AsyncStorage.setItem("username", json.username);
         await AsyncStorage.setItem("email", json.email);
         await AsyncStorage.setItem("id", json.id);
-        // Pass email as a parameter when navigating to Profile
+        
         alert("login sukses");
       } catch (e) {
-        // saving error
+      
       }
     } else {
       alert("username atau password salah");

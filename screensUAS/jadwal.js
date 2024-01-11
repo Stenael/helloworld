@@ -93,8 +93,11 @@ class Jadwal extends React.Component {
   }
   render() {
     return (
-      <ScrollView>
-        {this.showData(this.state.data)}
+      <ScrollView >
+        <View>
+         {this.showData(this.state.data)}
+        </View>
+        
         <View style={styles.container}>
           <TouchableOpacity
             style={styles.button}
@@ -108,7 +111,7 @@ class Jadwal extends React.Component {
         </View>
       </ScrollView>
     );
-  }
+   }
 }
 export default function (props) {
   const navigation = useNavigation();
@@ -149,9 +152,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     right: 16,
     bottom: 16,
-    backgroundColor: "#2196F3", // Change the background color as needed
+    backgroundColor: "#2196F3", 
     borderRadius: 28,
-    elevation: 8, // Adds a shadow on Android
+    elevation: 8,
   },
   buttonText: {
     fontSize: 24,

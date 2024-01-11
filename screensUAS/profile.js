@@ -9,7 +9,7 @@ export default class Profile extends ValidationComponent {
     this.state = {
       username: "",
       photo: "",
-      imageError: null, // Added imageError state
+      imageError: null, 
       user_id: 0,
       data: {},
       email: "",
@@ -18,18 +18,9 @@ export default class Profile extends ValidationComponent {
   }
   componentDidMount() {
     this.fetchData();
-    // this.getEmailFromAsyncStorage();
+   
   }
-  // getEmailFromAsyncStorage = async () => {
-  //   try {
-  //     const email = await this.asyncStorage.getItem('email');
-  //     if (email !== null) {
-  //       this.setState({ email });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //  }
+ 
   fetchData = async () => {
     try {
       const user_id = await this.asyncStorage.getItem('id');
@@ -46,7 +37,7 @@ export default class Profile extends ValidationComponent {
       const response = await fetch('https://ubaya.me/react/160420112/UAS_detailProfile.php', options);
       const resjson = await response.json();
   
-      console.log('Response JSON:', resjson); // Add this line to log the response
+      console.log('Response JSON:', resjson); 
   
       this.setState({
         data: resjson,
@@ -125,7 +116,6 @@ export default class Profile extends ValidationComponent {
           style={styles.input}
           placeholder="Email"
           value={this.state.email}
-          // onChangeText={(email) => this.setState({ email })}
           keyboardType="email-address"
           editable={false}
         />

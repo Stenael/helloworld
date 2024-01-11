@@ -134,7 +134,7 @@ class BuatJadwal extends ValidationComponent {
           onChangeText={(alamat) => this.setState({ alamat })}
         />
         <Picker
-          // selectedValue={dolanUtama}
+         
           style={styles.input}
           value={this.state.id_dolan}
           onValueChange={(id_dolan) => this.setState({ id_dolan })}

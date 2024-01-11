@@ -100,7 +100,7 @@ class SignUp extends ValidationComponent {
           alert("sukses");
           navigation.navigate("SignIn");
         }} />
-        {/* <Button title="Kembali" onPress={handleGoBack} /> */}
+        
         <Text>{this.getErrorMessages()}</Text>
       </View>
     );

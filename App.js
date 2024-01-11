@@ -3,16 +3,6 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button, NativeModules } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./screens/Home";
-import About from "./screens/About";
-import Product from "./screens/Product";
-import ProductDetail from "./screens/ProductDetail";
-import Login from "./screens/Login";
-import Setting from "./screens/Setting";
-import PopularMovie from "./screens/popularMovies";
-import PopularActor from "./screens/popularActor";
-import DetailMovie from "./screens/DetailMovie";
-import DetailActor from "./screens/DetailActor";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -22,13 +12,10 @@ import {
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import Quiz from "./screens/Quiz";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const Drawer = createDrawerNavigator();
-import MatiMurupGame from "./screens/MatiMurupGame";
-import popularMovies from "./screens/popularMovies";
 const Stack = createNativeStackNavigator();
-import EditMovie from "./screens/editmovie";
+
 //IMPORT SCREEN UAS
 import Signin from "./screensUAS/signin";
 import Signup from "./screensUAS/signup";
@@ -118,8 +105,7 @@ export default class App extends Component {
           tabBarInactiveTintColor: "gray",
         })}
       >
-        {/* <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <Tab.Screen name="About" component={About} /> */}
+     
         <Tab.Screen
           name="Jadwal"
           component={Jadwal}
@@ -130,30 +116,7 @@ export default class App extends Component {
       </Tab.Navigator>
     );
   }
-  NavMovie() {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="PopularMovie"
-          component={PopularMovie}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="DetailMovie" component={DetailMovie} />
-      </Stack.Navigator>
-    );
-  }
-  NavActor() {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="PopularActor"
-          component={PopularActor}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="DetailActor" component={DetailActor} />
-      </Stack.Navigator>
-    );
-  }
+ 
   NavPass() {
     return (
       <Stack.Navigator>

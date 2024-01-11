@@ -37,10 +37,10 @@ class GantiPassword extends Component {
     if (json.result == "success") {
       try {
         await AsyncStorage.setItem("idUsername", json.id);
-        // Pass email as a parameter when navigating to Profile
+      
         alert("usernamemu tersedia");
       } catch (e) {
-        // saving error
+       
       }
     } else {
         alert("usernamemu tidak tersedia ");

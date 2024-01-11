@@ -16,18 +16,9 @@ class UpdatePassword extends ValidationComponent {
   }
   componentDidMount() {
     this.fetchData();
-    // this.getEmailFromAsyncStorage();
+    
   }
-  // getEmailFromAsyncStorage = async () => {
-  //   try {
-  //     const email = await this.asyncStorage.getItem('email');
-  //     if (email !== null) {
-  //       this.setState({ email });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //  }
+  
   fetchData = async () => {
     try {
       const user_id = await this.asyncStorage.getItem('idUsername');
